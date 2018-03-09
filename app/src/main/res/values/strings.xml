@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">CompanyManager</string>
+    <array name="usertype">
+        <item>经理</item>
+        <item>副经理</item>
+        <item>普通员工</item>
+    </array>
+    <array name="userstate">
+        <item>在职</item>
+        <item>离职</item>
+        <item>请假</item>
+    </array>
+    <array name="usersex">
+        <item>男</item>
+        <item>女</item>
+    </array>
+</resources>
