@@ -63,7 +63,7 @@ public class AddEmployeeActivity extends Activity {
         setContentView(R.layout.activity_add_employee);
         //经理，副经理可看
         SharedPreferences sp = getSharedPreferences("companymanager", Context.MODE_PRIVATE);
-        type = sp.getString("type", null);
+        type = sp.getString("type", null);//读取缓存数据
         //是否为点击编辑跳转
         userid = getIntent().getStringExtra("userid");
         isEdit = getIntent().getStringExtra("isedit");

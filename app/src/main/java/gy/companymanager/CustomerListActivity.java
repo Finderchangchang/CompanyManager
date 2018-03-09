@@ -22,22 +22,28 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import gy.companymanager.adapter.CommonAdapter;
 import gy.companymanager.adapter.CommonViewHolder;
+import gy.companymanager.model.Customer;
+import gy.companymanager.model.Customer;
 import gy.companymanager.model.UserModel;
 
-//员工信息列表
-public class EmployeeListActivity extends Activity {
+/**
+ * 顾客管理
+ */
+public class CustomerListActivity extends Activity {
 
     private ImageView ivback;//返回
     //private ImageView ivsearch;//查询
     private ListView emp_lv;//员工列表
     private EditText emp_et_searchname;//姓名查询
-    private CommonAdapter<UserModel> commonAdapter;
-    private List<UserModel> listuser;
+    private CommonAdapter<Customer> commonAdapter;
+    private List<Customer> listuser;
+    private String type;
+    private String user_id;//当前登录的用户id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_list);
+        setContentView(R.layout.activity_customer_list);
 
         //初始化页面控件
         ivback = (ImageView) findViewById(R.id.emp_iv_back);
@@ -54,29 +60,24 @@ public class EmployeeListActivity extends Activity {
             }
         });
         SharedPreferences sp = getSharedPreferences("companymanager", Context.MODE_PRIVATE);
-        final String type = sp.getString("type", null);
+        type = sp.getString("type", null);
+        user_id = sp.getString("objectid", null);
         //在 EditText 上注册该 TextWatcher 实例
         emp_et_searchname.addTextChangedListener(watcher);
-        commonAdapter = new CommonAdapter<UserModel>(EmployeeListActivity.this, listuser, R.layout.item_employee) {
+        commonAdapter = new CommonAdapter<Customer>(CustomerListActivity.this, listuser, R.layout.item_employee) {
             @Override
-            public void convert(CommonViewHolder holder, final UserModel userModel, int position) {
-                holder.setText(R.id.emp_item_type, "类型:" + userModel.getType());
-                holder.setText(R.id.emp_item_zhicheng, "职称:" + userModel.getCompanyTitle());
-                holder.setText(R.id.emp_item_state, userModel.getState());
-                holder.setText(R.id.emp_item_sex, userModel.getSex());
-                holder.setText(R.id.emp_item_name, userModel.getUsername());
-                //经理，副经理可看
-
-                if (type != null && type.equals("普通员工")) {
-                    //ll_address.setVisibility(View.GONE);
-                    holder.setVisible(R.id.item_emp_iv_edit, false);
-                }
+            public void convert(CommonViewHolder holder, final Customer Customer, int position) {
+                holder.setText(R.id.emp_item_type, Customer.getCompanyname());
+//                holder.setText(R.id.emp_item_zhicheng, "职称:" + Customer.getCompanytitle());
+                holder.setText(R.id.emp_item_state, Customer.getCompanytitle());
+                holder.setText(R.id.emp_item_sex, Customer.getMobilephone());
+                holder.setText(R.id.emp_item_name, Customer.getName());
                 holder.setOnClickListener(R.id.item_emp_iv_edit, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //跳转到添加页面，进行数据编辑
-                        Intent intent = new Intent(EmployeeListActivity.this, AddEmployeeActivity.class);
-                        intent.putExtra("userid", userModel.getObjectId());
+                        Intent intent = new Intent(CustomerListActivity.this, AddCustomerActivity.class);
+                        intent.putExtra("userid", Customer.getObjectId());
                         intent.putExtra("isedit", "1");
                         startActivity(intent);
                     }
@@ -89,7 +90,7 @@ public class EmployeeListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //跳转到添加页面，查看详情
-                Intent intent = new Intent(EmployeeListActivity.this, AddEmployeeActivity.class);
+                Intent intent = new Intent(CustomerListActivity.this, AddCustomerActivity.class);
                 intent.putExtra("userid", listuser.get(position).getObjectId());
                 intent.putExtra("isedit", "0");
                 startActivity(intent);
@@ -100,14 +101,17 @@ public class EmployeeListActivity extends Activity {
     }
 
     private void Search(String name) {
-        BmobQuery<UserModel> query = new BmobQuery<UserModel>();
+        BmobQuery<Customer> query = new BmobQuery<Customer>();
         if (!name.equals("")) {
             query.addWhereEqualTo("username", name);
         }
+        if (("普通员工").equals(type)) {
+            query.addWhereEqualTo("user", new UserModel(user_id));
+        }
 
-        query.findObjects(new FindListener<UserModel>() {
+        query.findObjects(new FindListener<Customer>() {
             @Override
-            public void done(List<UserModel> object, BmobException e) {
+            public void done(List<Customer> object, BmobException e) {
                 if (e == null) {
                     //查询成功以后刷新数据
                     listuser = object;
@@ -115,7 +119,7 @@ public class EmployeeListActivity extends Activity {
                     //toast("查询用户成功:"+object.size());
                 } else {
                     //查询失败
-                    Toast.makeText(EmployeeListActivity.this, "查询信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CustomerListActivity.this, "查询信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
