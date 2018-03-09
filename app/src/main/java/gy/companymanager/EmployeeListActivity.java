@@ -64,7 +64,7 @@ public class EmployeeListActivity extends Activity {
                 holder.setText(R.id.emp_item_zhicheng,"职称:"+userModel.getCompanyTitle());
                 holder.setText(R.id.emp_item_state,userModel.getState());
                 holder.setText(R.id.emp_item_sex,userModel.getSex());
-                holder.setText(R.id.emp_item_name,userModel.getUserid().getUsername());
+                holder.setText(R.id.emp_item_name,userModel.getUsername());
                 //经理，副经理可看
 
                 if (type != null && type.equals("普通员工")) {

@@ -86,7 +86,7 @@ public class AddEmployeeActivity extends Activity {
         btnSave = (Button) findViewById(R.id.emp_add_save);
         btnBack = (ImageView) findViewById(R.id.emp_iv_back);
         //判断是编辑还是详情
-        if (!userid.equals("") && isEdit.equals("1")) {
+        if (userid!=null&&(!userid.equals("")) &&isEdit!=null&& isEdit.equals("1")) {
             //显示信息
 
             add_emp_title.setText("员工信息编辑");
@@ -100,7 +100,7 @@ public class AddEmployeeActivity extends Activity {
             if (type != null && type.equals("普通员工")) {
                 ll_address.setVisibility(View.GONE);
             }
-        } else if (isEdit.equals("0")) {
+        } else if (isEdit!=null&&isEdit.equals("0")) {
             add_emp_title.setText("员工详情");
             getUserInfo();
             //禁用，只是显示信息
@@ -147,7 +147,7 @@ public class AddEmployeeActivity extends Activity {
                         }).show();
             }
         });
-        emp_et_sex.setOnClickListener(new View.OnClickListener() {
+        emp_et_zhiwei.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //弹出框选择员工类型
@@ -195,20 +195,20 @@ public class AddEmployeeActivity extends Activity {
                 user.setType(emp_et_zhiwei.getText().toString().trim());
                 BmobUser bmobuser=new BmobUser();
 
-                bmobuser.setMobilePhoneNumber(emp_et_mobile.getText().toString().trim());
-//                if (!isEdit.equals("1")) {
-//                    user.setPassword(emp_et_psw.getText().toString().trim());
-//                }
-                bmobuser.setUsername(emp_et_name.getText().toString().trim());
-                user.setUserid(bmobuser);
+                user.setMobilenumber(emp_et_mobile.getText().toString().trim());
+                if (isEdit==null||isEdit.equals("0")) {
+                    user.setPassword(emp_et_psw.getText().toString().trim());
+                }
+                user.setUsername(emp_et_name.getText().toString().trim());
+
                 //验证数据
                 //验证数据是否输入完整
-                if (user.getUserid().getUsername().equals("") || user.getAddress().equals("") || user.getCompanyTitle().equals("") || user.getUserid().getMobilePhoneNumber().equals("")) {
+                if (user.getUsername().equals("") || user.getAddress().equals("") || user.getCompanyTitle().equals("") || user.getMobilenumber().equals("")) {
                     Toast.makeText(AddEmployeeActivity.this, "请输入完整信息", Toast.LENGTH_SHORT).show();
                 } else if ((emp_et_psw.getText().toString().trim().equals("") || emp_et_psw2.getText().toString().trim().equals("")) && !isEdit.equals("1")) {
                     //如果不是编辑必须设置登录密码
                     Toast.makeText(AddEmployeeActivity.this, "请设置登录密码", Toast.LENGTH_SHORT).show();
-                } else if (user.getUserid().getMobilePhoneNumber().length() != 11) {
+                } else if (user.getMobilenumber().length() != 11) {
                     //手机号长度为11位
                     Toast.makeText(AddEmployeeActivity.this, "请检查手机号码", Toast.LENGTH_SHORT).show();
                 } else if (!emp_et_psw.getText().toString().trim().equals(emp_et_psw2.getText().toString().trim())) {
@@ -216,7 +216,7 @@ public class AddEmployeeActivity extends Activity {
                     //密码是否一致
                     Toast.makeText(AddEmployeeActivity.this, "请检查密码是否一致", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (isEdit.equals("1")) {
+                    if (isEdit!=null&&isEdit.equals("1")) {
                         //user.setObjectId(userid);
                         user.update(userid,new UpdateListener() {
                             @Override
@@ -274,12 +274,12 @@ public class AddEmployeeActivity extends Activity {
 
 
                     //显示员工详情
-                    emp_et_name.setText(object.getUserid().getUsername());
+                    emp_et_name.setText(object.getUsername());
                     emp_et_sex.setText(object.getSex());
                     emp_et_state.setText(object.getState());
                     emp_et_zhicheng.setText(object.getCompanyTitle());
                     emp_et_zhiwei.setText(object.getType());
-                    emp_et_mobile.setText(object.getUserid().getMobilePhoneNumber());
+                    emp_et_mobile.setText(object.getMobilenumber());
                     emp_et_address.setText(object.getAddress());
                     //emp_et_psw.setText(object.getPassword());
                     //emp_et_psw2.setText(object.getPassword());
