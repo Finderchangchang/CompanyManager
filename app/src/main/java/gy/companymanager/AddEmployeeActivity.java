@@ -15,9 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -52,12 +55,15 @@ public class AddEmployeeActivity extends Activity {
 
     private String userid = "";
     private String isEdit = "0";
+    private String type = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_employee);
-
+        //经理，副经理可看
+        SharedPreferences sp = getSharedPreferences("companymanager", Context.MODE_PRIVATE);
+        type = sp.getString("type", null);
         //是否为点击编辑跳转
         userid = getIntent().getStringExtra("userid");
         isEdit = getIntent().getStringExtra("isedit");
@@ -86,7 +92,7 @@ public class AddEmployeeActivity extends Activity {
         btnSave = (Button) findViewById(R.id.emp_add_save);
         btnBack = (ImageView) findViewById(R.id.emp_iv_back);
         //判断是编辑还是详情
-        if (userid!=null&&(!userid.equals("")) &&isEdit!=null&& isEdit.equals("1")) {
+        if (userid != null && (!userid.equals("")) && isEdit != null && isEdit.equals("1")) {
             //显示信息
 
             add_emp_title.setText("员工信息编辑");
@@ -94,13 +100,11 @@ public class AddEmployeeActivity extends Activity {
             ll_psw.setVisibility(View.GONE);
             //加载员工信息
             getUserInfo();
-            //经理，副经理可看
-            SharedPreferences sp = getSharedPreferences("companymanager", Context.MODE_PRIVATE);
-            String type = sp.getString("type", null);
+
             if (type != null && type.equals("普通员工")) {
                 ll_address.setVisibility(View.GONE);
             }
-        } else if (isEdit!=null&&isEdit.equals("0")) {
+        } else if (isEdit != null && isEdit.equals("0")) {
             add_emp_title.setText("员工详情");
             getUserInfo();
             //禁用，只是显示信息
@@ -147,22 +151,26 @@ public class AddEmployeeActivity extends Activity {
                         }).show();
             }
         });
-        emp_et_zhiwei.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //弹出框选择员工类型
-                new AlertDialog.Builder(AddEmployeeActivity.this)
-                        .setTitle("选择员工类型")
-                        .setItems(usertype, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //选择以后赋值给编辑框
-                                emp_et_zhiwei.setText(usertype[which]);
-                                //Toast.makeText(AddEmployeeActivity.this,usersex[which],Toast.LENGTH_SHORT).show();
-                            }
-                        }).show();
-            }
-        });
+        if (type.equals("经理")) {
+
+
+            emp_et_zhiwei.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //弹出框选择员工类型
+                    new AlertDialog.Builder(AddEmployeeActivity.this)
+                            .setTitle("选择员工类型")
+                            .setItems(usertype, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //选择以后赋值给编辑框
+                                    emp_et_zhiwei.setText(usertype[which]);
+                                    //Toast.makeText(AddEmployeeActivity.this,usersex[which],Toast.LENGTH_SHORT).show();
+                                }
+                            }).show();
+                }
+            });
+        }
         emp_et_state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +182,6 @@ public class AddEmployeeActivity extends Activity {
                             public void onClick(DialogInterface dialog, int which) {
                                 //选择以后赋值给编辑框
                                 emp_et_state.setText(userstate[which]);
-                                //Toast.makeText(AddEmployeeActivity.this,usersex[which],Toast.LENGTH_SHORT).show();
                             }
                         }).show();
             }
@@ -193,10 +200,10 @@ public class AddEmployeeActivity extends Activity {
                 user.setCompanyTitle(emp_et_zhicheng.getText().toString().trim());
                 user.setState(emp_et_state.getText().toString().trim());
                 user.setType(emp_et_zhiwei.getText().toString().trim());
-                BmobUser bmobuser=new BmobUser();
 
                 user.setMobilenumber(emp_et_mobile.getText().toString().trim());
-                if (isEdit==null||isEdit.equals("0")) {
+                //如果是添加，给密码赋值
+                if (isEdit == null || isEdit.equals("0")) {
                     user.setPassword(emp_et_psw.getText().toString().trim());
                 }
                 user.setUsername(emp_et_name.getText().toString().trim());
@@ -216,9 +223,71 @@ public class AddEmployeeActivity extends Activity {
                     //密码是否一致
                     Toast.makeText(AddEmployeeActivity.this, "请检查密码是否一致", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (isEdit!=null&&isEdit.equals("1")) {
+                    if (isEdit != null && isEdit.equals("1")) {
                         //user.setObjectId(userid);
-                        user.update(userid,new UpdateListener() {
+                        if (user.getType().equals("副经理")) {
+                            UpdateUser(user);
+                        } else {
+                            //验证通过可以保存数据
+                            user.update(userid, new UpdateListener() {
+                                @Override
+                                public void done(BmobException e) {
+                                    if (e == null) {
+                                        Toast.makeText(AddEmployeeActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    } else {
+                                        Toast.makeText(AddEmployeeActivity.this, "保存失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        if (user.getType().equals("副经理")) {
+                            SearchUser(user);
+
+                        } else {
+                            //验证通过可以保存数据
+                            user.save(new SaveListener<String>() {
+                                @Override
+                                public void done(String s, BmobException e) {
+                                    if (e == null) {
+                                        Toast.makeText(AddEmployeeActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    } else {
+                                        Toast.makeText(AddEmployeeActivity.this, "保存失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+
+
+                    }
+
+                }
+            }
+
+        });
+    }
+
+    //验证副经理是否已经存在
+
+    private void UpdateUser(final UserModel user) {
+
+        BmobQuery<UserModel> query = new BmobQuery<UserModel>();
+        //查询playerName叫“比目”的数据
+        query.addWhereEqualTo("type", "副经理");
+        query.addWhereEqualTo("state", "在职");
+        query.addWhereNotEqualTo("objectid", userid);
+        //返回50条数据，如果不加上这条语句，默认返回10条数据
+        query.setLimit(10);
+        //执行查询方法
+        query.findObjects(new FindListener<UserModel>() {
+            @Override
+            public void done(List<UserModel> object, BmobException e) {
+                if (e == null) {
+                    if (object.size() == 0) {
+                        //验证通过可以保存数据
+                        user.update(userid, new UpdateListener() {
                             @Override
                             public void done(BmobException e) {
                                 if (e == null) {
@@ -230,6 +299,32 @@ public class AddEmployeeActivity extends Activity {
                             }
                         });
                     } else {
+                        Toast.makeText(AddEmployeeActivity.this, "已存在副经理信息", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(AddEmployeeActivity.this, "验证信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
+                }
+            }
+        });
+
+    }
+
+    //验证副经理是否已经存在
+    private void SearchUser(final UserModel user) {
+
+        BmobQuery<UserModel> query = new BmobQuery<UserModel>();
+//查询playerName叫“比目”的数据
+        query.addWhereEqualTo("type", "副经理");
+        query.addWhereEqualTo("state", "在职");
+//返回50条数据，如果不加上这条语句，默认返回10条数据
+        query.setLimit(10);
+//执行查询方法
+        query.findObjects(new FindListener<UserModel>() {
+            @Override
+            public void done(List<UserModel> object, BmobException e) {
+                if (e == null) {
+                    if (object.size() == 0) {
                         //验证通过可以保存数据
                         user.save(new SaveListener<String>() {
                             @Override
@@ -242,22 +337,18 @@ public class AddEmployeeActivity extends Activity {
                                 }
                             }
                         });
-//                        user.save(new SaveListener<UserModel>() {
-//                            @Override
-//                            public void done(UserModel userModel, BmobException e) {
-//
-//                            }
-//                        });
+                    } else {
+                        Toast.makeText(AddEmployeeActivity.this, "已存在副经理信息", Toast.LENGTH_SHORT).show();
                     }
-
-
+                } else {
+                    Toast.makeText(AddEmployeeActivity.this, "验证信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
                 }
-
             }
         });
-
     }
 
+    //获取员工信息
     private void getUserInfo() {
         BmobQuery<UserModel> query = new BmobQuery<UserModel>();
         query.getObject(userid, new QueryListener<UserModel>() {
@@ -265,14 +356,6 @@ public class AddEmployeeActivity extends Activity {
             @Override
             public void done(UserModel object, BmobException e) {
                 if (e == null) {
-                    //获得playerName的信息
-                    //object.getPlayerName();
-                    //获得数据的objectId信息
-                    object.getObjectId();
-                    //获得createdAt数据创建时间（注意是：createdAt，不是createAt）
-                    object.getCreatedAt();
-
-
                     //显示员工详情
                     emp_et_name.setText(object.getUsername());
                     emp_et_sex.setText(object.getSex());
@@ -284,7 +367,10 @@ public class AddEmployeeActivity extends Activity {
                     //emp_et_psw.setText(object.getPassword());
                     //emp_et_psw2.setText(object.getPassword());
                 } else {
+
+                    Toast.makeText(AddEmployeeActivity.this, "获取用户信息失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
+                    finish();
                 }
             }
 

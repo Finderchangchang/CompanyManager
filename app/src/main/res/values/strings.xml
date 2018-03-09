@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CompanyManager</string>
     <array name="usertype">
-        <item>经理</item>
+        <!--<item>经理</item>-->
         <item>副经理</item>
         <item>普通员工</item>
     </array>
@@ -13,5 +13,10 @@
     <array name="usersex">
         <item>男</item>
         <item>女</item>
+    </array>
+    <array name="customertype">
+        <item>新增客户</item>
+        <item>老客户</item>
+        <item>潜在客户</item>
     </array>
 </resources>

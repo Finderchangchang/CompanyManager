@@ -35,7 +35,8 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".AddEmployeeActivity" />
-        <activity android:name=".EmployeeListActivity"></activity>
+        <activity android:name=".EmployeeListActivity" />
+        <activity android:name=".AddCustomerActivity"></activity>
     </application>
 
 </manifest>

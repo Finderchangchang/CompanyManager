@@ -4,7 +4,7 @@ import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobUser;
 
 /**
- * 任务模型
+ * 工作任务模型
  * Created by lenovo on 2018/3/1.
  */
 
