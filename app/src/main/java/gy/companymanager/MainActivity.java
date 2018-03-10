@@ -9,23 +9,27 @@ import android.widget.TextView;
 import cn.bmob.v3.Bmob;
 
 public class MainActivity extends Activity {
- private TextView main_tv_addemp;//添加员工
+    private TextView main_tv_addemp;//添加员工
     private TextView main_tv_emp;//员工管理
+    private TextView add_cus_tv;//添加客户
+    private TextView manage_cus_tv;//客户管理
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bmob.initialize(this, "5f049a564688e228b77d16970d95885f");
         setContentView(R.layout.activity_main);
         //初始化视图控件
-        main_tv_addemp= (TextView) findViewById(R.id.main_tv_addemp);
-        main_tv_emp= (TextView) findViewById(R.id.main_tv_emp);
-
+        main_tv_addemp = (TextView) findViewById(R.id.main_tv_addemp);
+        main_tv_emp = (TextView) findViewById(R.id.main_tv_emp);
+        add_cus_tv = (TextView) findViewById(R.id.add_cus_tv);
+        manage_cus_tv = (TextView) findViewById(R.id.manage_cus_tv);
         //点击添加员工
         main_tv_addemp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //进入添加员工界面张三
-                Intent intent=new Intent(MainActivity.this,AddEmployeeActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddEmployeeActivity.class);
                 startActivity(intent);
             }
         });
@@ -33,7 +37,23 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //进入添加员工管理界面
-                Intent intent=new Intent(MainActivity.this,EmployeeListActivity.class);
+                Intent intent = new Intent(MainActivity.this, EmployeeListActivity.class);
+                startActivity(intent);
+            }
+        });
+        //点击添加客户信息
+        add_cus_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddCustomerActivity.class);
+                startActivity(intent);
+            }
+        });
+        //点击进入客户管理
+        manage_cus_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CustomerListActivity.class);
                 startActivity(intent);
             }
         });

@@ -19,16 +19,16 @@
                 android:id="@+id/emp_item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/hui"
-                android:text="名称" />
+                android:text="名称"
+                android:textColor="@color/hui" />
 
             <TextView
                 android:id="@+id/emp_item_sex"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/hui"
                 android:text="男"
+                android:textColor="@color/hui"
                 android:textSize="10sp" />
 
             <TextView
@@ -37,38 +37,37 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:textColor="@color/hui"
-                android:text="状态" />
+                android:text="状态"
+                android:textColor="@color/hui" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/emp_item_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/hui"
-                android:text="类型" />
+                android:text="类型"
+                android:textColor="@color/hui" />
 
             <TextView
                 android:id="@+id/emp_item_zhicheng"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="10dp"
-                android:textColor="@color/hui"
-                android:text="职称" />
+                android:layout_weight="1"
+                android:textColor="@color/hui" />
 
             <ImageView
                 android:id="@+id/item_emp_iv_edit"
-                android:src="@mipmap/edit"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:src="@mipmap/edit"
                 android:text="编辑" />
         </LinearLayout>
 
