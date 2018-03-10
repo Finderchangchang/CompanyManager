@@ -68,6 +68,7 @@ public class LoginActivity extends Activity {
                                 Toast.makeText(LoginActivity.this, "登录成功!", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
+                                finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, "登录失败，请检查用户名和密码!", Toast.LENGTH_LONG).show();
                             }
