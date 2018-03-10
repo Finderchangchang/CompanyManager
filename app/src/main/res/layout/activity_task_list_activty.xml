@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="gy.companymanager.EmployeeListActivity">
+    tools:context="gy.companymanager.TaskListActivty">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,43 +17,43 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/emp_iv_back"
+            android:id="@+id/task_iv_back"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@mipmap/back" />
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/add_task_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
-            android:text="客户信息"
+            android:text="任务管理"
             android:textColor="@android:color/black" />
-
-        <ImageView
-            android:id="@+id/emp_iv_search"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/search"
-            android:visibility="gone" />
-
     </LinearLayout>
 
     <EditText
-        android:id="@+id/emp_et_searchname"
+        android:id="@+id/task_et_searchname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:hint="输入姓名查询"
+        android:hint="输入任务名称查询"
         android:padding="10dp" />
-
+    <EditText
+        android:id="@+id/task_et_searchtype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="全部"
+        android:padding="10dp" />
     <ListView
-        android:id="@+id/emp_lv"
+        android:id="@+id/task_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"
         android:dividerHeight="0dp"
+        android:divider="@null"
         android:padding="10dp"></ListView>
 </LinearLayout>

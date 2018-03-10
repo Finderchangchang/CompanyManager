@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="gy.companymanager.AddCustomerActivity">
+    tools:context="gy.companymanager.AddTaskActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,17 +17,17 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/cus_iv_back"
+            android:id="@+id/task_iv_back"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@mipmap/back" />
 
         <TextView
-            android:id="@+id/add_cus_title"
+            android:id="@+id/add_task_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="添加客户"
+            android:text="添加工作任务"
             android:textColor="@android:color/black" />
     </LinearLayout>
 
@@ -50,11 +51,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="姓名："
+                    android:text="任务名称："
                     android:textColor="@color/hui" />
 
                 <EditText
-                    android:id="@+id/cus_et_name"
+                    android:id="@+id/task_et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -69,35 +70,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="职称："
+                    android:text="指定任务人："
                     android:textColor="@color/hui" />
 
-                <EditText
-                    android:id="@+id/cus_et_zhicheng"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="性别："
-                    android:textColor="@color/hui" />
 
                 <EditText
-                    android:id="@+id/cus_et_sex"
+                    android:id="@+id/task_et_accept"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="男" />
+                    android:text="" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -115,71 +97,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="职位："
+                    android:text="任务内容："
                     android:textColor="@color/hui" />
 
                 <EditText
-                    android:id="@+id/cus_et_zhiwei"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="普通员工" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/down" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="状态："
-                    android:textColor="@color/hui" />
-
-
-                <EditText
-                    android:id="@+id/cus_et_state"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="在职" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/down" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="电话："
-                    android:textColor="@color/hui" />
-
-                <EditText
-                    android:id="@+id/cus_et_mobile"
+                    android:id="@+id/task_et_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:hint="任务内容"
+                    android:gravity="left|top"
+                    android:maxLines="5"
+                    android:minLines="3"/>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -189,17 +120,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="地址："
+                    android:text="开始时间："
                     android:textColor="@color/hui" />
 
                 <EditText
-                    android:id="@+id/cus_et_address"
+                    android:id="@+id/task_et_timestart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_psw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -209,40 +139,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="密码："
+                    android:text="完成时间："
                     android:textColor="@color/hui" />
 
                 <EditText
-                    android:id="@+id/cus_et_psw"
+                    android:id="@+id/task_et_timeend"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_psw2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="确认密码："
-                    android:textColor="@color/hui" />
-
-                <EditText
-                    android:id="@+id/cus_et_psw2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
-
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <Button
-                android:id="@+id/cus_add_save"
+                android:id="@+id/task_add_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
