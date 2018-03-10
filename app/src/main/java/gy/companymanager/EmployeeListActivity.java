@@ -57,27 +57,27 @@ public class EmployeeListActivity extends Activity {
         final String type = sp.getString("type", null);
         //在 EditText 上注册该 TextWatcher 实例
         emp_et_searchname.addTextChangedListener(watcher);
-        commonAdapter = new CommonAdapter<UserModel>(EmployeeListActivity.this, listuser, R.layout.item_employee) {
+        commonAdapter=new CommonAdapter<UserModel>(EmployeeListActivity.this,listuser,R.layout.item_employee) {
             @Override
             public void convert(CommonViewHolder holder, final UserModel userModel, int position) {
-                holder.setText(R.id.emp_item_type, "类型:" + userModel.getType());
-                holder.setText(R.id.emp_item_zhicheng, "职称:" + userModel.getCompanyTitle());
-                holder.setText(R.id.emp_item_state, userModel.getState());
-                holder.setText(R.id.emp_item_sex, userModel.getSex());
-                holder.setText(R.id.emp_item_name, userModel.getUsername());
+                holder.setText(R.id.emp_item_type,"类型:"+userModel.getType());
+                holder.setText(R.id.emp_item_zhicheng,"职称:"+userModel.getCompanyTitle());
+                holder.setText(R.id.emp_item_state,userModel.getState());
+                holder.setText(R.id.emp_item_sex,userModel.getSex());
+                holder.setText(R.id.emp_item_name,userModel.getUsername());
                 //经理，副经理可看
 
                 if (type != null && type.equals("普通员工")) {
                     //ll_address.setVisibility(View.GONE);
-                    holder.setVisible(R.id.item_emp_iv_edit, false);
+                    holder.setVisible(R.id.item_emp_iv_edit,false);
                 }
                 holder.setOnClickListener(R.id.item_emp_iv_edit, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //跳转到添加页面，进行数据编辑
-                        Intent intent = new Intent(EmployeeListActivity.this, AddEmployeeActivity.class);
-                        intent.putExtra("userid", userModel.getObjectId());
-                        intent.putExtra("isedit", "1");
+                     //跳转到添加页面，进行数据编辑
+                        Intent intent=new Intent(EmployeeListActivity.this,AddEmployeeActivity.class);
+                        intent.putExtra("userid",userModel.getObjectId());
+                        intent.putExtra("isedit","1");
                         startActivity(intent);
                     }
                 });
@@ -89,9 +89,9 @@ public class EmployeeListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //跳转到添加页面，查看详情
-                Intent intent = new Intent(EmployeeListActivity.this, AddEmployeeActivity.class);
-                intent.putExtra("userid", listuser.get(position).getObjectId());
-                intent.putExtra("isedit", "0");
+                Intent intent=new Intent(EmployeeListActivity.this,AddEmployeeActivity.class);
+                intent.putExtra("userid",listuser.get(position).getObjectId());
+                intent.putExtra("isedit","0");
                 startActivity(intent);
             }
         });
@@ -101,7 +101,8 @@ public class EmployeeListActivity extends Activity {
 
     private void Search(String name) {
         BmobQuery<UserModel> query = new BmobQuery<UserModel>();
-        if (!name.equals("")) {
+        if(!name.equals(""))
+        {
             query.addWhereEqualTo("username", name);
         }
 

@@ -21,6 +21,8 @@ public class TaskModel extends BmobObject {
     private String timeend;
     //任务内容
     private String content;
+    //任务名称
+    private String title;
 
     public String getState() {
         return state;
@@ -68,5 +70,13 @@ public class TaskModel extends BmobObject {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

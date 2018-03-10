@@ -9,12 +9,6 @@ import cn.bmob.v3.BmobUser;
  */
 
 public class UserModel extends BmobObject {
-    public UserModel() {
-    }
-
-    public UserModel(String userid) {
-        this.setObjectId(userid);
-    }
 
     //家庭住址
     private String address;

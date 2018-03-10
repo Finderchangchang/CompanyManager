@@ -19,4 +19,9 @@
         <item>老客户</item>
         <item>潜在客户</item>
     </array>
+    <array name="tasktype">
+        <item>新任务</item>
+        <item>已接收</item>
+        <item>已完成</item>
+    </array>
 </resources>
