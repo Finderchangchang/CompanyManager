@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CompanyManager</string>
+    <string name="app_name">无人问津</string>
     <array name="usertype">
         <!--<item>经理</item>-->
         <item>副经理</item>
@@ -19,7 +19,14 @@
         <item>老客户</item>
         <item>潜在客户</item>
     </array>
+    <array name="customertypesearch">
+        <item>全部</item>
+        <item>新增客户</item>
+        <item>老客户</item>
+        <item>潜在客户</item>
+    </array>
     <array name="tasktype">
+        <item>全部</item>
         <item>新任务</item>
         <item>已接收</item>
         <item>已完成</item>

@@ -14,7 +14,7 @@ public class TaskModel extends BmobObject {
     //创建人
     private UserModel userid;
     //接收任务人
-    private String acceptuserid;
+    private UserModel acceptuserid;
     //开始时间
     private String timestart;
     //结束时间
@@ -40,11 +40,11 @@ public class TaskModel extends BmobObject {
         this.userid = userid;
     }
 
-    public String getAcceptuserid() {
+    public UserModel getAcceptuserid() {
         return acceptuserid;
     }
 
-    public void setAcceptuserid(String acceptuserid) {
+    public void setAcceptuserid(UserModel acceptuserid) {
         this.acceptuserid = acceptuserid;
     }
 

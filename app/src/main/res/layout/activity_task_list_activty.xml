@@ -53,7 +53,7 @@
         android:id="@+id/task_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="0dp"
-        android:divider="@null"
+        android:dividerHeight="1dp"
+        android:divider="@android:color/white"
         android:padding="10dp"></ListView>
 </LinearLayout>

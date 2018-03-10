@@ -39,6 +39,7 @@
         <activity android:name=".AddCustomerActivity" />
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".TaskListActivty"></activity>
+        <activity android:name="CustomerListActivity"></activity>
     </application>
 
 </manifest>

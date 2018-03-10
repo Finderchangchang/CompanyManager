@@ -3,7 +3,9 @@ package gy.companymanager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -45,7 +48,7 @@ public class AddTaskActivity extends Activity {
     private int mMonth;
     private int mDay;
     private int isstart = 1;//记录点击的是开始时间还是结束时间
-    private String objectid;
+    private String userid;//登录用户的ID
 
     private Button task_add_save;//保存信息
 
@@ -61,7 +64,8 @@ public class AddTaskActivity extends Activity {
         task_et_timestart = (EditText) findViewById(R.id.task_et_timestart);
         task_et_timeend = (EditText) findViewById(R.id.task_et_timeend);
         task_add_save = (Button) findViewById(R.id.task_add_save);
-
+        SharedPreferences sp = getSharedPreferences("companymanager", Context.MODE_PRIVATE);
+        userid = sp.getString("objectid", null);
 
 
         //设置输入框不可编辑，但是响应单击事件
@@ -74,8 +78,6 @@ public class AddTaskActivity extends Activity {
 
         task_et_timestart.setText(df.format(new Date()));
         task_et_timeend.setText(df.format(new Date()));
-        objectid=getIntent().getStringExtra("objectid");
-
         getUsers();
         //点击选择任务人
         task_et_accept.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +135,8 @@ public class AddTaskActivity extends Activity {
                 task.setTimeend(task_et_timeend.getText().toString().trim());
                 task.setTimestart(task_et_timestart.getText().toString().trim());
                 task.setTitle(task_et_name.getText().toString().trim());
+                UserModel user=new UserModel(userid);
+                task.setUserid(user);
                 //验证数据
                 if(task.getContent().equals("")||task.getTitle().equals("")){
                     Toast.makeText(AddTaskActivity.this,"请输入完整信息",Toast.LENGTH_SHORT).show();
